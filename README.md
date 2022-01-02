@@ -1,16 +1,14 @@
 ## Init
 
-- Clone this repo
+- Clone this repo [ssh or https]
 ```
-git clone git@github.com:WailanTirajoh/MyFirsAppNuxtBackend.git
-or
-git clone https://github.com/WailanTirajoh/MyFirsAppNuxtBackend.git
+git clone git@github.com:WailanTirajoh/MyFirstNuxtBackend.git
 ```
 - Copy .env.example to .env
 ```
 cp .env.example .env
 ```
-- create database, choose pgsql or mysql
+- create database [mysql or pgsql]
 ```
 mysql -u <username> -p
 create database my_first_app;
