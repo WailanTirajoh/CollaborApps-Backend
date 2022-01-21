@@ -30,8 +30,7 @@ class UpdateProfileRequest extends FormRequest
                 'max:255'
             ],
             'avatar' => [
-                'required',
-                'image',
+                'nullable',
                 'mimes:png,jpg'
             ]
         ];
