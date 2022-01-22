@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\ProfileController;
+use App\Http\Controllers\Api\Auth\ProfilePhotoController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LogoutController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +24,11 @@ Route::group(['middleware' => ['auth:sanctum'], 'as' => 'api.'], function () {
     Route::group(['prefix' => '/user', 'as' => 'user.'], function () {
         Route::get('/', [ProfileController::class, 'index'])->name('index');
         Route::post('/update', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/profile-photo', [ProfilePhotoController::class, 'delete'])->name('profile-photo.delete');
     });
+
+    Route::resource('posts', PostController::class)->only(['index', 'store', 'update', 'destroy']);
+
     Route::post('/logout', LogoutController::class);
 });
 

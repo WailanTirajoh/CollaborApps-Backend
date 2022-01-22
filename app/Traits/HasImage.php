@@ -14,6 +14,7 @@ trait HasImage
     public function replaceImage($file, string $name): void
     {
         if ($this->getFirstMedia($name)) $this->deleteMedia($this->getFirstMedia($name)->id);
+
         $this->addMedia($file)->usingName(Str::random(20))->toMediaCollection($name);
     }
 
@@ -25,7 +26,7 @@ trait HasImage
     {
         return $this->getFirstMedia($this->getImageProperty()) ?
             $this->getFirstMediaUrl($this->getImageProperty()) :
-            asset('default/user.png');
+            asset('default/default-placeholder.png');
     }
 
     public function getImageProperty()

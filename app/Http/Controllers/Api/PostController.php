@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -16,17 +17,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json([
+            'posts' => Post::orderByDesc('created_at')->get(),
+        ]);
     }
 
     /**
@@ -37,29 +30,12 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
-    }
+        $post = Auth::user()->posts()->save(new Post($request->validated()));
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Post $post)
-    {
-        //
+        return response()->json([
+            'message' => 'Post created successfully',
+            'post' => $post
+        ]);
     }
 
     /**
