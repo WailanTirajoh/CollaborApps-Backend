@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class UpdatePostRequest extends FormRequest
+class StoreCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->id === request()->post->user_id;
+        return true;
     }
 
     /**
@@ -27,8 +26,7 @@ class UpdatePostRequest extends FormRequest
         return [
             'text' => [
                 'required',
-                'string',
-                'max:255'
+                'string'
             ]
         ];
     }

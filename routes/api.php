@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\ProfileController;
 use App\Http\Controllers\Api\Auth\ProfilePhotoController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LogoutController;
+use App\Http\Controllers\Api\PostCommentController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Http\Request;
@@ -27,7 +28,8 @@ Route::group(['middleware' => ['auth:sanctum'], 'as' => 'api.'], function () {
         Route::delete('/profile-photo', [ProfilePhotoController::class, 'delete'])->name('profile-photo.delete');
     });
 
-    Route::resource('posts', PostController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('post', PostController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('post.comment', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
 
     Route::post('/logout', LogoutController::class);
 });

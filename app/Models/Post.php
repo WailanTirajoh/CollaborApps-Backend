@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasComment;
 use App\Traits\HasImage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Post extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, HasImage;
+    use HasFactory, InteractsWithMedia, HasImage, HasComment;
 
     /**
      * used at HasImage trait

@@ -48,7 +48,12 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $post->update($request->validated());
+
+        return response()->json([
+            'message' => 'Post updated successfully',
+            'post' => PostResource::make($post)
+        ]);
     }
 
     /**
