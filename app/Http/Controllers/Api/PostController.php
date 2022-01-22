@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -18,7 +19,7 @@ class PostController extends Controller
     public function index()
     {
         return response()->json([
-            'posts' => Post::orderByDesc('created_at')->get(),
+            'posts' => PostResource::collection(Post::orderByDesc('created_at')->paginate(10)),
         ]);
     }
 
@@ -34,7 +35,7 @@ class PostController extends Controller
 
         return response()->json([
             'message' => 'Post created successfully',
-            'post' => $post
+            'post' => PostResource::make($post)
         ]);
     }
 
@@ -58,6 +59,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return response()->json([
+            'message' => 'Post deleted successfully!',
+        ]);
     }
 }
