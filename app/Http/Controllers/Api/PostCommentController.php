@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\PostCommentResource;
 use App\Models\Post;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class PostCommentController extends Controller
@@ -69,6 +70,7 @@ class PostCommentController extends Controller
      */
     public function destroy(Post $post, Comment $comment)
     {
+        if ($comment->comments()->count() > 0) return response()->json(['message' => 'Comment cannot be deleted, someone comment at this already'], Response::HTTP_FORBIDDEN);
         $comment->delete();
 
         return response()->json([
