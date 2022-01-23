@@ -3,25 +3,24 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\PostCommentResource;
-use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 
-class PostCommentController extends Controller
+class CommentSubCommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Post $post)
+    public function index(Comment $comment)
     {
         return response()->json([
             'message' => 'Get all comment success',
-            'comments' => PostCommentResource::collection($post->comments()->orderBy('created_at')->get()),
+            'comments' => PostCommentResource::collection($comment->comments()->orderBy('created_at')->get()),
         ]);
     }
 
@@ -31,12 +30,12 @@ class PostCommentController extends Controller
      * @param  \App\Http\Requests\StoreCommentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCommentRequest $request, Post $post)
+    public function store(StoreCommentRequest $request, Comment $comment)
     {
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
 
-        $comment = $post->comments()->save(new Comment($validated));
+        $comment = $comment->comments()->save(new Comment($validated));
 
         return response()->json([
             'message' => 'Comment added successfully',
@@ -51,13 +50,13 @@ class PostCommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCommentRequest $request, Post $post, Comment $comment)
+    public function update(UpdateCommentRequest $request, Comment $comment, Comment $subComment)
     {
-        $comment->update($request->validated());
+        $subComment->update($request->validated());
 
         return response()->json([
             'message' => 'Comment updated successfully',
-            'comment' => PostCommentResource::make($comment)
+            'comment' => PostCommentResource::make($subComment)
         ]);
     }
 
@@ -67,13 +66,13 @@ class PostCommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post, Comment $comment)
+    public function destroy(Comment $comment, Comment $subComment)
     {
-        $comment->delete();
+        $subComment->delete();
 
         return response()->json([
             'message' => 'Comment deleted successfully!',
-            'comment' => PostCommentResource::make($comment),
+            'comment' => PostCommentResource::make($subComment),
         ]);
     }
 }

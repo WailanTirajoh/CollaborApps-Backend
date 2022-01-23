@@ -2,12 +2,12 @@
 
 use App\Http\Controllers\Api\Auth\ProfileController;
 use App\Http\Controllers\Api\Auth\ProfilePhotoController;
+use App\Http\Controllers\Api\CommentSubCommentController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LogoutController;
 use App\Http\Controllers\Api\PostCommentController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\RegisterController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'as' => 'api.'], function () {
 
     Route::resource('post', PostController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('post.comment', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('comment.subComment', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
 
     Route::post('/logout', LogoutController::class);
 });

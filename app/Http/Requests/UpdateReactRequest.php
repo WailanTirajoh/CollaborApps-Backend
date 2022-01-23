@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class UpdateCommentRequest extends FormRequest
+class UpdateReactRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class UpdateCommentRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->id == request()->comment->id;
+        return false;
     }
 
     /**
@@ -25,12 +24,7 @@ class UpdateCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'text' => [
-                'required',
-                'string',
-                'max:255'
-            ]
+            //
         ];
     }
 }
-
