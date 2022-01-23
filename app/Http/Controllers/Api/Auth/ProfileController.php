@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\UpdateProfileRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +15,8 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         return [
+            'id' => $user->id,
             'name' => $user->name,
-            'email' => $user->email,
             'avatar' => $user->image,
         ];
     }

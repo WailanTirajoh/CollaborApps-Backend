@@ -17,7 +17,7 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'text' => $this->text,
-            'total_comments' => $this->comments->count(),
+            'total_comments' => $this->totalComment,
             'created_at' => $this->created_at->diffForHumans(),
             'user' => UserResource::make($this->user),
         ];
