@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\React;
 use Illuminate\Database\Seeder;
 
 class ReactSeeder extends Seeder
@@ -13,6 +14,18 @@ class ReactSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $reacts = [
+            'like',
+            'dislike',
+            'laugh',
+            'angry',
+            'hug',
+        ];
+
+        foreach ($reacts as $react) {
+            React::create([
+                'name' => $react
+            ]);
+        }
     }
 }

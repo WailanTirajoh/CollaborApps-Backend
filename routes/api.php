@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LogoutController;
 use App\Http\Controllers\Api\PostCommentController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\PostReactController;
 use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,11 +25,12 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:sanctum'], 'as' => 'api.'], function () {
     Route::group(['prefix' => '/user', 'as' => 'user.'], function () {
         Route::get('/', [ProfileController::class, 'index'])->name('index');
-        Route::post('/update', [ProfileController::class, 'update'])->name('update');
+        Route::put('/update', [ProfileController::class, 'update'])->name('update');
         Route::delete('/profile-photo', [ProfilePhotoController::class, 'delete'])->name('profile-photo.delete');
     });
 
     Route::resource('post', PostController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('post.react', PostReactController::class)->only(['store', 'destroy']);
     Route::resource('post.comment', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('comment.subComment', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
 
