@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\PostCreated;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
@@ -33,6 +34,7 @@ class PostController extends Controller
     {
         $post = Auth::user()->posts()->save(new Post($request->validated()));
 
+        broadcast(new PostCreated(PostResource::make($post)));
         return response()->json([
             'message' => 'Post created successfully',
             'post' => PostResource::make($post)

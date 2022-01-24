@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class React extends Model
 {
@@ -15,7 +16,7 @@ class React extends Model
 
     public function posts()
     {
-        return $this->morphedByMany(Post::class, 'reactable');
+        return $this->morphedByMany(Post::class, 'reactable')->withPivot('user_id')->withPivotValue('user_id', Auth::user()->id)->withTimestamps();
     }
 
     public function comments()

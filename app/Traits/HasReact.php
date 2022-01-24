@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\React;
+use Illuminate\Support\Facades\Auth;
 
 trait HasReact
 {
@@ -11,6 +12,6 @@ trait HasReact
      */
     public function reacts()
     {
-        return $this->morphMany(React::class, 'reactable');
+        return $this->morphToMany(React::class, 'reactable')->withPivot('user_id')->withTimestamps();
     }
 }

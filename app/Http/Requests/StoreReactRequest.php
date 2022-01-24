@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\React;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreReactRequest extends FormRequest
@@ -23,8 +24,15 @@ class StoreReactRequest extends FormRequest
      */
     public function rules()
     {
+        $the_react_id = '';
+        foreach (React::pluck('id') as $react_id) {
+            $the_react_id .= $react_id . ',';
+        }
         return [
-            //
+            'react_id' => [
+                'required',
+                'in:' . $the_react_id
+            ]
         ];
     }
 }

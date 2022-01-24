@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'as' => 'api.'], function () {
     });
 
     Route::resource('post', PostController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('post.react', PostReactController::class)->only(['store', 'destroy']);
+    Route::resource('post.react', PostReactController::class)->only(['store']);
     Route::resource('post.comment', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('comment.subComment', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
 

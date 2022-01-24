@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\Hello;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return 'go to <a>localhost:3000</a>';
+});
+
+Route::get('/hello/{message}', function ($message) {
+    broadcast(new Hello($message));
 });

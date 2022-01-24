@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReactableTable extends Migration
+class CreateReactablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateReactableTable extends Migration
      */
     public function up()
     {
-        Schema::create('reactable', function (Blueprint $table) {
-            $table->id();
+        Schema::create('reactables', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('react_id');
             $table->morphs('reactable');
             $table->timestamps();
+
+            $table->primary(['user_id', 'reactable_id', 'reactable_type']);
         });
     }
 
@@ -28,6 +30,6 @@ class CreateReactableTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reactable');
+        Schema::dropIfExists('reactables');
     }
 }
