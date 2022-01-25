@@ -7,35 +7,23 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PostCreated implements ShouldBroadcastNow
+class PostCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $post;
-    private $message;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($post, $message)
+    public function __construct($post)
     {
         $this->post = $post;
-        $this->message = $message;
-    }
-
-
-    public function broadcastWith()
-    {
-        return [
-            'post' => $this->post,
-            'message' => $this->message
-        ];
     }
 
     /**
@@ -51,5 +39,15 @@ class PostCreated implements ShouldBroadcastNow
     public function broadcastAs()
     {
         return 'created';
+    }
+
+    /**
+     * send data to be broadcasted with
+     */
+    public function broadcastWith()
+    {
+        return [
+            'post' => $this->post,
+        ];
     }
 }

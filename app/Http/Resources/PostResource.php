@@ -21,7 +21,7 @@ class PostResource extends JsonResource
             'total_reacts' => $this->reacts()->where('name', 'like')->count(),
             'created_at' => $this->created_at->diffForHumans(),
             'user' => UserResource::make($this->user),
-            'file' => $this->getFirstMediaUrl('post_media'),
+            'file' => $this->file,
         ];
     }
 }

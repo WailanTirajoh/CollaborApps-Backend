@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Events\PostCreated;
+use App\Events\PostDeleted;
+use App\Events\ToastrMessage;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
@@ -11,6 +13,7 @@ use App\Http\Resources\PostResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -36,14 +39,16 @@ class PostController extends Controller
     {
         $post = Auth::user()->posts()->save(new Post($request->validated()));
 
-        if ($request->file) $post->replaceImage($request->file, (new Post)->mediaName);
-        $message = 'Post created by ' . Auth::user()->name;
-        broadcast(new PostCreated(PostResource::make($post), $message))->toOthers();
+        if ($request->file) {
+            $post->addMedia($request->file)->usingName(Str::random(20))->toMediaCollection((new Post)->mediaName);
+        }
 
+        $message = 'Post created by ' . Auth::user()->name;
+        broadcast(new PostCreated(PostResource::make($post)))->toOthers();
+        broadcast(new ToastrMessage($message));
         return response()->json([
             'message' => $message,
             'post' => PostResource::make($post),
-            'image' => $post->getFirstMediaUrl('post_media')
         ]);
     }
 
@@ -80,8 +85,13 @@ class PostController extends Controller
 
         $post->delete();
 
+        $message = 'Post deleted by ' . Auth::user()->name;
+
+        broadcast(new PostDeleted(PostResource::make($post)))->toOthers();
+        broadcast(new ToastrMessage($message));
+
         return response()->json([
-            'message' => 'Post deleted successfully!',
+            'message' => $message,
         ]);
     }
 }
