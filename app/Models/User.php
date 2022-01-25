@@ -19,7 +19,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * used at HasImage trait
      */
-    protected $mediaName = 'user_profile';
+    public $mediaName = 'user_profile';
 
     /**
      * The attributes that are mass assignable.

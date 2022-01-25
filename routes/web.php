@@ -18,6 +18,6 @@ Route::get('/', function () {
     return 'go to <a>localhost:3000</a>';
 });
 
-Route::get('/hello/{message}', function ($message) {
-    broadcast(new Hello($message));
+Route::get('/hello', function () {
+    broadcast(new Hello('www.google.com'));
 });

@@ -18,7 +18,7 @@ class Post extends Model implements HasMedia
     /**
      * used at HasImage trait
      */
-    protected $mediaName = 'post_media';
+    public $mediaName = 'post_media';
 
     protected $fillable = [
         'text'
@@ -27,5 +27,13 @@ class Post extends Model implements HasMedia
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * get file attribute
+     */
+    public function getFileAttribute()
+    {
+        return $this->getFirstMediaUrl($this->mediaName);
     }
 }

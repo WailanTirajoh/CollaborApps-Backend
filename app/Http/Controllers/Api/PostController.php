@@ -8,7 +8,9 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class PostController extends Controller
 {
@@ -34,10 +36,14 @@ class PostController extends Controller
     {
         $post = Auth::user()->posts()->save(new Post($request->validated()));
 
-        broadcast(new PostCreated(PostResource::make($post)));
+        if ($request->file) $post->replaceImage($request->file, (new Post)->mediaName);
+        $message = 'Post created by ' . Auth::user()->name;
+        broadcast(new PostCreated(PostResource::make($post), $message))->toOthers();
+
         return response()->json([
-            'message' => 'Post created successfully',
-            'post' => PostResource::make($post)
+            'message' => $message,
+            'post' => PostResource::make($post),
+            'image' => $post->getFirstMediaUrl('post_media')
         ]);
     }
 
@@ -66,6 +72,12 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if (!Auth::user()->id == $post->user->id) {
+            throw ValidationException::withMessages([
+                'message' => 'You are not authorized to do the action'
+            ])->status(Response::HTTP_FORBIDDEN);
+        }
+
         $post->delete();
 
         return response()->json([

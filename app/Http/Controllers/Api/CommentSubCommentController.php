@@ -70,7 +70,11 @@ class CommentSubCommentController extends Controller
      */
     public function destroy(Comment $comment, Comment $subComment)
     {
-        if ($subComment->comments()->count() > 0) return response()->json(['message' => 'Comment cannot be deleted, someone comment at this already'], Response::HTTP_FORBIDDEN);
+        if ($subComment->comments()->count() > 0) {
+            return response()->json([
+                'message' => 'Comment cannot be deleted, someone comment at this already'
+            ], Response::HTTP_FORBIDDEN);
+        }
         $subComment->delete();
 
         return response()->json([

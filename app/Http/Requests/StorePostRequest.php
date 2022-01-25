@@ -28,6 +28,11 @@ class StorePostRequest extends FormRequest
                 'required',
                 'string',
                 'max:255'
+            ],
+            'file' => [
+                'nullable',
+                'mimes:png,jpg',
+                'max:20000'
             ]
         ];
     }

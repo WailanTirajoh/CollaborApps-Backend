@@ -22,11 +22,11 @@ class PostReactController extends Controller
         $react = React::find($request->react_id);
         if ($post->reacts()->where('name', 'like')->wherePivot('user_id', Auth::user()->id)->exists()) {
             $post->reacts()->where('name', 'like')->wherePivot('user_id', Auth::user()->id)->detach();
-            $message = 'Reaction removed successfully!';
+            $message = 'Post liked!';
             $like = false;
         } else {
             $post->reacts()->attach($react, ['user_id' => Auth::user()->id]);
-            $message = 'Reaction added successfully!';
+            $message = 'Post unliked!';
             $like = true;
         }
 

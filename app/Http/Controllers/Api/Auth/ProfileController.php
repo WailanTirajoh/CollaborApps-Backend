@@ -25,9 +25,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $user->update($request->validated());
-        if ($request->avatar) {
-            $user->replaceImage($request->avatar, 'user_profile');
-        }
+        if ($request->avatar) $user->replaceImage($request->avatar, (new User)->mediaName);
 
         return response()->json([
             'message' => 'Profile updated successfully',
