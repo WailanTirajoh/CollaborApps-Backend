@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\PostCommentCreated;
+use App\Events\PostCommentDeleted;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\PostCommentResource;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +42,8 @@ class PostCommentController extends Controller
         $validated['user_id'] = Auth::user()->id;
 
         $comment = $post->comments()->save(new Comment($validated));
+
+        broadcast(new PostCommentCreated(PostResource::make($post), PostCommentResource::make($comment)));
 
         return response()->json([
             'message' => 'Comment added successfully',
@@ -78,6 +83,8 @@ class PostCommentController extends Controller
         }
 
         $comment->delete();
+
+        broadcast(new PostCommentDeleted(PostResource::make($post), PostCommentResource::make($comment)));
 
         return response()->json([
             'message' => 'Comment deleted successfully!',
