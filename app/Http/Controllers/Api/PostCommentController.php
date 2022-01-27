@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Events\PostCommentCreated;
 use App\Events\PostCommentDeleted;
 use App\Events\TestPrivate;
+use App\Events\UserPostCommentCreated;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\PostCommentResource;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\UserResource;
 use App\Models\Post;
 use App\Notifications\PostCommentedNotification;
 use Illuminate\Http\Response;
@@ -27,7 +29,7 @@ class PostCommentController extends Controller
     public function index(Post $post)
     {
         return response()->json([
-            'message' => 'Get all comment success',
+            'message' => 'Komentar berhasil didapat.',
             'comments' => PostCommentResource::collection($post->comments()->orderBy('created_at')->get()),
         ]);
     }
@@ -45,11 +47,11 @@ class PostCommentController extends Controller
 
         $comment = $post->comments()->save(new Comment($validated));
 
-        // broadcast(new TestPrivate(Auth::user()));
+        broadcast(new UserPostCommentCreated(UserResource::make(Auth::user()), PostResource::make($post)))->toOthers();
         broadcast(new PostCommentCreated(PostResource::make($post), PostCommentResource::make($comment)));
 
         return response()->json([
-            'message' => 'Comment added successfully',
+            'message' => 'Komentar berhasil ditambahkan.',
             'comment' => PostCommentResource::make($comment),
         ]);
     }
@@ -66,7 +68,7 @@ class PostCommentController extends Controller
         $comment->update($request->validated());
 
         return response()->json([
-            'message' => 'Comment updated successfully',
+            'message' => 'Komentar berhasil diubah.',
             'comment' => PostCommentResource::make($comment)
         ]);
     }
@@ -81,13 +83,13 @@ class PostCommentController extends Controller
     {
         if ($comment->comments()->count() > 0) {
             throw ValidationException::withMessages([
-                'message' => 'Comment cannot be deleted, someone comment at this already'
+                'message' => 'Komentar tidak dapat dihapus, seseorang telah mengomentari komentar ini!'
             ])->status(Response::HTTP_FORBIDDEN);
         }
 
         if (!$post->user_id == Auth::user()->id) {
             throw ValidationException::withMessages([
-                'message' => 'Comment cannot be deleted, someone comment at this already'
+                'message' => 'Komentar tidak dapat dihapus, seseorang telah mengomentari komentar ini!'
             ])->status(Response::HTTP_FORBIDDEN);
         }
 
@@ -96,7 +98,7 @@ class PostCommentController extends Controller
         broadcast(new PostCommentDeleted(PostResource::make($post), PostCommentResource::make($comment)));
 
         return response()->json([
-            'message' => 'Comment deleted successfully!',
+            'message' => 'Komentar berhasil dihapus.',
             'comment' => PostCommentResource::make($comment),
         ]);
     }

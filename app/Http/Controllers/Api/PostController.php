@@ -25,7 +25,7 @@ class PostController extends Controller
     public function index()
     {
         return response()->json([
-            'posts' => PostResource::collection(Post::orderByDesc('created_at')->paginate(10)),
+            'posts' => PostResource::collection(Post::orderByDesc('created_at')->paginate(5)),
         ]);
     }
 

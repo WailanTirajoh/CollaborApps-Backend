@@ -13,16 +13,18 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-// Broadcast::routes(['middleware' => ['auth:sanctum']]);
-
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return $user->id === (int) $id;
 });
+
 Broadcast::channel('users.{id}', function ($user, $id) {
     return $user->id === (int) $id;
 });
+
+Broadcast::channel('post.{postId}', function ($user, $postId) {
+    return true;
+});
+
 Broadcast::channel('home.{id}', function ($user, $id) {
-    // if ($user->canJoinRoom($roomId)) {
     return ['id' => $user->id, 'name' => $user->name];
-    // }
 });

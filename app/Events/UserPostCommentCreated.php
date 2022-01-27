@@ -9,23 +9,23 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
-class PostCommentCreated implements ShouldBroadcast
+class UserPostCommentCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    private $user;
     private $post;
-    private $comment;
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($post, $comment)
+    public function __construct($user, $post)
     {
+        $this->user = $user;
         $this->post = $post;
-        $this->comment = $comment;
     }
 
     /**
@@ -35,22 +35,24 @@ class PostCommentCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('post.' . $this->post->id);
+        return new PrivateChannel('users.' . $this->post->user->id);
     }
 
     public function broadcastAs()
     {
-        return 'comment.created';
+        return 'post.comment.created';
     }
 
-    /**
-     * send data to be broadcasted with
-     */
     public function broadcastWith()
     {
+        if (Auth::user()->id === (int) $this->user->id) {
+            $message = $this->user->name . ' memberikan komentar pada post anda.';
+        } else {
+            $message = 'Komentar anda berhasil ditambahkan';
+        }
+
         return [
-            // 'post' => $this->post,
-            'comment' => $this->comment,
+            'message' => $message
         ];
     }
 }

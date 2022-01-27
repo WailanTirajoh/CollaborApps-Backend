@@ -35,7 +35,7 @@ class PostCommentDeleted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('post');
+        return new PrivateChannel('post.' . $this->post->id);
     }
 
     public function broadcastAs()
@@ -49,7 +49,7 @@ class PostCommentDeleted implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'post' => $this->post,
+            // 'post' => $this->post,
             'comment' => $this->comment,
         ];
     }

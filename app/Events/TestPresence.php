@@ -10,22 +10,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PostCommentCreated implements ShouldBroadcast
+class TestPresence implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $post;
-    private $comment;
-
+    private $user;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($post, $comment)
+    public function __construct($user)
     {
-        $this->post = $post;
-        $this->comment = $comment;
+        $this->user = $user;
     }
 
     /**
@@ -35,22 +32,19 @@ class PostCommentCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('post.' . $this->post->id);
+        return new PresenceChannel('home.1');
     }
 
     public function broadcastAs()
     {
-        return 'comment.created';
+        return 'index';
     }
 
-    /**
-     * send data to be broadcasted with
-     */
     public function broadcastWith()
     {
         return [
-            // 'post' => $this->post,
-            'comment' => $this->comment,
+            'id' => $this->user->id,
+            'name' => $this->user->name,
         ];
     }
 }

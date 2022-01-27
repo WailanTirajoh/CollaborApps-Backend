@@ -10,22 +10,22 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PostCommentCreated implements ShouldBroadcast
+class PostReactDeleted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $post;
-    private $comment;
+    private $react;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($post, $comment)
+    public function __construct($post, $react)
     {
         $this->post = $post;
-        $this->comment = $comment;
+        $this->react = $react;
     }
 
     /**
@@ -40,7 +40,7 @@ class PostCommentCreated implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'comment.created';
+        return 'react.deleted';
     }
 
     /**
@@ -50,7 +50,7 @@ class PostCommentCreated implements ShouldBroadcast
     {
         return [
             // 'post' => $this->post,
-            'comment' => $this->comment,
+            'react' => $this->react,
         ];
     }
 }
