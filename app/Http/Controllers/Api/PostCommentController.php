@@ -45,10 +45,7 @@ class PostCommentController extends Controller
 
         $comment = $post->comments()->save(new Comment($validated));
 
-
-        // $post->user->notify(new PostCommentedNotification(Auth::user()));
-        broadcast(new TestPrivate(Auth::user()));
-
+        // broadcast(new TestPrivate(Auth::user()));
         broadcast(new PostCommentCreated(PostResource::make($post), PostCommentResource::make($comment)));
 
         return response()->json([

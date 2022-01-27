@@ -21,3 +21,8 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('users.{id}', function ($user, $id) {
     return $user->id === (int) $id;
 });
+Broadcast::channel('home.{id}', function ($user, $id) {
+    // if ($user->canJoinRoom($roomId)) {
+    return ['id' => $user->id, 'name' => $user->name];
+    // }
+});
