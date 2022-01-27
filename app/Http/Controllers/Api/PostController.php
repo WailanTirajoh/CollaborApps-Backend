@@ -12,7 +12,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -77,11 +77,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if (!Auth::user()->id == $post->user->id) {
-            throw ValidationException::withMessages([
-                'message' => 'You are not authorized to do the action'
-            ])->status(Response::HTTP_FORBIDDEN);
-        }
+        abort_if(Gate::denies('delete', $post), Response::HTTP_FORBIDDEN, 'You are not authorized to do the action');
 
         $post->delete();
 

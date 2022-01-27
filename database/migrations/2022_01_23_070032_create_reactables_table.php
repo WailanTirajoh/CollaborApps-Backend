@@ -15,7 +15,7 @@ class CreateReactablesTable extends Migration
     {
         Schema::create('reactables', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('react_id');
+            $table->foreignId('react_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->morphs('reactable');
             $table->timestamps();
 

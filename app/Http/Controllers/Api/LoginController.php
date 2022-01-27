@@ -20,9 +20,11 @@ class LoginController extends Controller
                 'email' => 'Invalid credentials'
             ]);
         }
-
+        $token = Auth::user()->createToken('authToken')->plainTextToken;
         $request->session()->regenerate();
-
-        return response()->json(null, Response::HTTP_CREATED);
+            
+        return response()->json([
+            'token' => $token
+        ], Response::HTTP_CREATED);
     }
 }

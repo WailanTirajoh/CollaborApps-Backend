@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\PostCommentCreated;
 use App\Events\PostCommentDeleted;
+use App\Events\TestPrivate;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
@@ -11,6 +12,7 @@ use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\PostCommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Notifications\PostCommentedNotification;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -42,6 +44,10 @@ class PostCommentController extends Controller
         $validated['user_id'] = Auth::user()->id;
 
         $comment = $post->comments()->save(new Comment($validated));
+
+
+        // $post->user->notify(new PostCommentedNotification(Auth::user()));
+        broadcast(new TestPrivate(Auth::user()));
 
         broadcast(new PostCommentCreated(PostResource::make($post), PostCommentResource::make($comment)));
 
@@ -77,6 +83,12 @@ class PostCommentController extends Controller
     public function destroy(Post $post, Comment $comment)
     {
         if ($comment->comments()->count() > 0) {
+            throw ValidationException::withMessages([
+                'message' => 'Comment cannot be deleted, someone comment at this already'
+            ])->status(Response::HTTP_FORBIDDEN);
+        }
+
+        if (!$post->user_id == Auth::user()->id) {
             throw ValidationException::withMessages([
                 'message' => 'Comment cannot be deleted, someone comment at this already'
             ])->status(Response::HTTP_FORBIDDEN);
