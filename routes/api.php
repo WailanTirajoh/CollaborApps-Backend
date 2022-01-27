@@ -29,10 +29,10 @@ Route::group(['middleware' => ['auth:sanctum'], 'as' => 'api.'], function () {
         Route::delete('/profile-photo', [ProfilePhotoController::class, 'delete'])->name('profile-photo.delete');
     });
 
-    Route::resource('post', PostController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('post.react', PostReactController::class)->only(['store']);
-    Route::resource('post.comment', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('comment.subComment', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('posts', PostController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('posts.reacts', PostReactController::class)->only(['store']);
+    Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
 
     Route::post('/logout', LogoutController::class);
 });

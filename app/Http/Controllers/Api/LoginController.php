@@ -16,15 +16,18 @@ class LoginController extends Controller
     public function __invoke(LoginRequest $request)
     {
         if (!Auth::attempt($request->only('email', 'password'))) {
-            throw ValidationException::withMessages([
+            return response()->json([
                 'email' => 'Invalid credentials'
-            ]);
+            ], Response::HTTP_UNAUTHORIZED);
         }
-        $token = Auth::user()->createToken('authToken')->plainTextToken;
-        $request->session()->regenerate();
-            
+
+        $token = Auth::user()->createToken('token')->plainTextToken;
+
+        // $cookie = cookie('jwt', $token, 60 * 24);
+
         return response()->json([
-            'token' => $token
+            'message' => 'Success',
+            'token' => $token,
         ], Response::HTTP_CREATED);
     }
 }

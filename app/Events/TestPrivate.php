@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TestPrivate
+class TestPrivate implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -22,7 +22,7 @@ class TestPrivate
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct($user)
     {
         $this->user = $user;
     }
@@ -34,7 +34,7 @@ class TestPrivate
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('users.' . $this->user->id);
+        return new PrivateChannel('users.1');
     }
 
     public function broadcastAs()
