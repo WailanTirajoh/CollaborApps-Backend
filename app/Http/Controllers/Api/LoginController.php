@@ -23,10 +23,8 @@ class LoginController extends Controller
 
         $token = Auth::user()->createToken('token')->plainTextToken;
 
-        // $cookie = cookie('jwt', $token, 60 * 24);
-
         return response()->json([
-            'message' => 'Success',
+            'message' => 'Success login',
             'token' => $token,
         ], Response::HTTP_CREATED);
     }
