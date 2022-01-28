@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
-
+namespace App\Http\Controllers\Api\V1;
 use App\Events\PostCommentCreated;
 use App\Events\PostCommentDeleted;
 use App\Events\TestPrivate;

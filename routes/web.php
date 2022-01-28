@@ -1,8 +1,5 @@
 <?php
 
-use App\Events\Hello;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,10 +11,3 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return 'go to <a>localhost:3000</a>';
-});
-
-Route::get('/hello', function () {
-    broadcast(new Hello('www.google.com'));
-});

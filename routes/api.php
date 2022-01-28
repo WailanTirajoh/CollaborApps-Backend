@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\Api\Auth\ProfileController;
 use App\Http\Controllers\Api\Auth\ProfilePhotoController;
-use App\Http\Controllers\Api\CommentSubCommentController;
-use App\Http\Controllers\Api\LoginController;
-use App\Http\Controllers\Api\LogoutController;
-use App\Http\Controllers\Api\PostCommentController;
-use App\Http\Controllers\Api\PostController;
-use App\Http\Controllers\Api\PostReactController;
-use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\V1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\Auth\LogoutController;
+use App\Http\Controllers\Api\V1\Auth\RegisterController;
+use App\Http\Controllers\Api\V1\CommentSubCommentController;
+use App\Http\Controllers\Api\V1\PostCommentController;
+use App\Http\Controllers\Api\V1\PostController;
+use App\Http\Controllers\Api\V1\PostReactController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,20 +22,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['auth:sanctum'], 'as' => 'api.'], function () {
-    Route::group(['prefix' => '/user', 'as' => 'user.'], function () {
-        Route::get('/', [ProfileController::class, 'index'])->name('index');
-        Route::put('/update', [ProfileController::class, 'update'])->name('update');
-        Route::delete('/profile-photo', [ProfilePhotoController::class, 'delete'])->name('profile-photo.delete');
+Route::prefix('/v1')->group(function () {
+    Route::group(['middleware' => ['auth:sanctum'], 'as' => 'api.'], function () {
+        Route::group(['prefix' => '/user', 'as' => 'user.'], function () {
+            Route::get('/', [ProfileController::class, 'index'])->name('index');
+            Route::put('/update', [ProfileController::class, 'update'])->name('update');
+            Route::delete('/profile-photo', [ProfilePhotoController::class, 'delete'])->name('profile-photo.delete');
+        });
+
+        Route::resource('posts', PostController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('posts.reacts', PostReactController::class)->only(['store']);
+        Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
+
+        Route::post('/logout', LogoutController::class)->name('logout');
     });
 
-    Route::resource('posts', PostController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('posts.reacts', PostReactController::class)->only(['store']);
-    Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
-
-    Route::post('/logout', LogoutController::class);
+    Route::post('/login', LoginController::class)->name('login');
+    Route::post('/register', RegisterController::class)->name('register');
 });
-
-Route::post('/login', LoginController::class);
-Route::post('/register', RegisterController::class);
