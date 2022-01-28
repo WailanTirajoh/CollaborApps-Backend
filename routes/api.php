@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
+use App\Http\Controllers\Api\V1\ChannelVoiceController;
 use App\Http\Controllers\Api\V1\CommentSubCommentController;
 use App\Http\Controllers\Api\V1\PostCommentController;
 use App\Http\Controllers\Api\V1\PostController;
@@ -34,6 +35,8 @@ Route::prefix('/v1')->group(function () {
         Route::resource('posts.reacts', PostReactController::class)->only(['store']);
         Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
+
+        Route::post('/channel/{channel}/voice', ChannelVoiceController::class)->name('channel.voice');
 
         Route::post('/logout', LogoutController::class)->name('logout');
     });

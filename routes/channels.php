@@ -28,3 +28,7 @@ Broadcast::channel('post.{postId}', function ($user, $postId) {
 Broadcast::channel('home.{id}', function ($user, $id) {
     return ['id' => $user->id, 'name' => $user->name];
 });
+
+Broadcast::channel('channel.{id}', function ($user, $id) {
+    return true;
+});
