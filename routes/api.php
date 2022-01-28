@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\Auth\ProfileController;
-use App\Http\Controllers\Api\Auth\ProfilePhotoController;
+use App\Http\Controllers\Api\V1\Auth\ProfilePhotoController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
+use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\CommentSubCommentController;
 use App\Http\Controllers\Api\V1\PostCommentController;
