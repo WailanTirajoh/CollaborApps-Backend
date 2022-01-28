@@ -13,10 +13,9 @@ class LogoutController extends Controller
     public function __invoke(Request $request)
     {
         $request->user()->tokens()->delete();
-        $cookie = Cookie::forget('jwt');
 
         return response()->json([
-            'message' => 'Success'
-        ], Response::HTTP_OK)->withCookie($cookie);
+            'message' => 'Success logout'
+        ], Response::HTTP_OK);
     }
 }
