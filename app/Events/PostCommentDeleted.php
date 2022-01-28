@@ -47,7 +47,7 @@ class PostCommentDeleted implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            // 'post' => $this->post,
+            'post' => $this->post,
             'comment' => $this->comment,
         ];
     }

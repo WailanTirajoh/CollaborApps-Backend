@@ -47,7 +47,7 @@ class PostReactCreated implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            // 'post' => $this->post,
+            'post' => $this->post,
             'react' => $this->react,
         ];
     }
