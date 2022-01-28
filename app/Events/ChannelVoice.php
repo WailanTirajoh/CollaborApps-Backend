@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
 class ChannelVoice implements ShouldBroadcastNow
 {
@@ -32,7 +33,7 @@ class ChannelVoice implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel.1');
+        return new PresenceChannel('channel.1');
     }
 
     public function broadcastAs()
@@ -43,6 +44,7 @@ class ChannelVoice implements ShouldBroadcastNow
     public function broadcastWith()
     {
         return [
+            'user' => Auth::user(),
             'voice' => $this->voice
         ];
     }
