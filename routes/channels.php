@@ -37,6 +37,7 @@ Broadcast::channel('channel.{id}', function ($user, $id) {
         'id' => $user->id,
         'name' => $user->name,
         'image' => $user->image,
-        'isSpeaking' => false
+        'isSpeaking' => false,
+        'volume' => 0.5
     ];
 });
