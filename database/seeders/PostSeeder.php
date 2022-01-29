@@ -21,7 +21,7 @@ class PostSeeder extends Seeder
         $users = User::get();
 
         foreach ($users as $user) {
-            for ($i = 0; $i < 3; $i++) {
+            for ($i = 0; $i < 20; $i++) {
                 $user->posts()->save(new Post([
                     'text' => $faker->paragraph(),
                     'channel_id' => rand(1, 5)
