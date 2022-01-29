@@ -65,4 +65,10 @@ class User extends Authenticatable implements HasMedia
     {
         return 'users.' . $this->id;
     }
+
+    public function canJoinChannel(int $channelId)
+    {
+        // nanti diisi
+        return true;
+    }
 }

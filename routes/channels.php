@@ -32,12 +32,14 @@ Broadcast::channel('home.{id}', function ($user, $id) {
     ];
 });
 
-Broadcast::channel('channel.{id}', function ($user, $id) {
-    return [
-        'id' => $user->id,
-        'name' => $user->name,
-        'image' => $user->image,
-        'isSpeaking' => false,
-        'volume' => 0.5
-    ];
+Broadcast::channel('channel.{channelId}', function ($user, $channelId) {
+    if ($user->canJoinChannel($channelId)) {
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'image' => $user->image,
+            'isSpeaking' => false,
+            'volume' => 0.5
+        ];
+    }
 });
