@@ -16,13 +16,13 @@ class DefaultUserSeeder extends Seeder
     {
         User::create([
             'name' => 'Wailan Tirajoh',
-            'email' => 'wailantirajoh@gmail.com',
-            'password' => bcrypt('wailan'),
+            'email' => 'examplea@gmail.com',
+            'password' => bcrypt('password'),
         ]);
         User::create([
             'name' => 'Putri Rinding',
-            'email' => 'putririnding21@gmail.com',
-            'password' => bcrypt('putri'),
+            'email' => 'exampleb@gmail.com',
+            'password' => bcrypt('password'),
         ]);
     }
 }
