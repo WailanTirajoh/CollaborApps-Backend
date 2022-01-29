@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Channel;
 use Illuminate\Database\Seeder;
 
 class ChannelSeeder extends Seeder
@@ -13,6 +14,18 @@ class ChannelSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $channels = [
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+        ];
+
+        foreach ($channels as $channel) {
+            Channel::create([
+                'name' => $channel
+            ]);
+        }
     }
 }

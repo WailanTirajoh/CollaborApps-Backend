@@ -2,7 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+
+use Faker\Factory as Faker;
 
 class PostSeeder extends Seeder
 {
@@ -13,6 +17,16 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $faker = Faker::create('id_ID');
+        $users = User::get();
+
+        foreach ($users as $user) {
+            for ($i = 0; $i < 3; $i++) {
+                $user->posts()->save(new Post([
+                    'text' => $faker->paragraph(),
+                    'channel_id' => rand(1, 5)
+                ]));
+            }
+        }
     }
 }

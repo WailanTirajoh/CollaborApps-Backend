@@ -13,6 +13,5 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
-        //
     }
 }

@@ -11,6 +11,10 @@ class Channel extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
+    protected $fillable = [
+        'name'
+    ];
+
     public function users()
     {
         return $this->belongsToMany(User::class);

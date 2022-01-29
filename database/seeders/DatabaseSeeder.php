@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DefaultUserSeeder::class,
             ReactSeeder::class,
+            ChannelSeeder::class,
+            PostSeeder::class
         ]);
     }
 }

@@ -21,7 +21,8 @@ class Post extends Model implements HasMedia
     public $mediaName = 'post_media';
 
     protected $fillable = [
-        'text'
+        'text',
+        'channel_id'
     ];
 
     public function user(): BelongsTo
