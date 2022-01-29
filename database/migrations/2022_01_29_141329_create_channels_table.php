@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomUserTable extends Migration
+class CreateChannelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateRoomUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('room_user', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('room_id')->constrained()->onDelete('cascade');
-            $table->primary(['user_id', 'room_id']);
+        Schema::create('channels', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -27,6 +27,6 @@ class CreateRoomUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('room_user');
+        Schema::dropIfExists('channels');
     }
 }

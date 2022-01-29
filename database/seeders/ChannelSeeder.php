@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class RoomSeeder extends Seeder
+class ChannelSeeder extends Seeder
 {
     /**
      * Run the database seeds.

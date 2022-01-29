@@ -66,9 +66,20 @@ class User extends Authenticatable implements HasMedia
         return 'users.' . $this->id;
     }
 
+    /**
+     * [presence channel]
+     * determine that the user can join channel
+     * @param int channel id
+     * @return boolean
+     */
     public function canJoinChannel(int $channelId)
     {
         // nanti diisi
         return true;
+    }
+
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class);
     }
 }
