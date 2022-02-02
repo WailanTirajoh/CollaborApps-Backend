@@ -19,4 +19,17 @@ class Channel extends Model implements HasMedia
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * using key SLUG to route model binding instead of ID
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

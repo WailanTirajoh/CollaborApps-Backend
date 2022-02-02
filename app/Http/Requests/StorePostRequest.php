@@ -29,6 +29,10 @@ class StorePostRequest extends FormRequest
                 'string',
                 'max:255'
             ],
+            'channel_id' => [
+                'required',
+                'integer'
+            ],
             'file' => [
                 'nullable',
                 'mimes:png,jpg',

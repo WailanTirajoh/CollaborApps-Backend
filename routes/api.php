@@ -5,10 +5,11 @@ use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
+use App\Http\Controllers\Api\V1\ChannelController;
 use App\Http\Controllers\Api\V1\ChannelVoiceController;
 use App\Http\Controllers\Api\V1\CommentSubCommentController;
 use App\Http\Controllers\Api\V1\PostCommentController;
-use App\Http\Controllers\Api\V1\PostController;
+use App\Http\Controllers\Api\V1\ChannelPostController;
 use App\Http\Controllers\Api\V1\PostReactController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,12 +32,13 @@ Route::prefix('/v1')->group(function () {
             Route::delete('/profile-photo', [ProfilePhotoController::class, 'delete'])->name('profile-photo.delete');
         });
 
-        Route::resource('posts', PostController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('posts.reacts', PostReactController::class)->only(['store']);
         Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
 
-        Route::post('/channel/{channel}/voice', ChannelVoiceController::class)->name('channel.voice');
+        Route::resource('channels', ChannelController::class)->only(['index', 'store', 'update', 'delete']);
+        Route::resource('channels.posts', ChannelPostController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::post('/channels/{channel}/voice', ChannelVoiceController::class)->name('channel.voice');
 
         Route::post('/logout', LogoutController::class)->name('logout');
     });

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnChannelIdToPostsTable extends Migration
+class AddColumnSlugToChannelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddColumnChannelIdToPostsTable extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->foreignId('channel_id')->after('user_id')->constrained()->onDelete('cascade');
+        Schema::table('channels', function (Blueprint $table) {
+            $table->string('slug')->after('id')->unique();
         });
     }
 
@@ -25,8 +25,8 @@ class AddColumnChannelIdToPostsTable extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('channel_id');
+        Schema::table('channels', function (Blueprint $table) {
+            $table->dropColumn('slug');
         });
     }
 }

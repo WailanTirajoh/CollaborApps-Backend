@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Channel;
 use App\Http\Requests\StoreChannelRequest;
 use App\Http\Requests\UpdateChannelRequest;
+use App\Http\Resources\ChannelResource;
 use Illuminate\Http\Response;
 
 class ChannelController extends Controller
@@ -18,7 +19,7 @@ class ChannelController extends Controller
     public function index()
     {
         return response()->json([
-            'channels' => Channel::get() // nanti diganti dengan Auth::user()->channels
+            'channels' => ChannelResource::collection(Channel::get()) // nanti diganti dengan Auth::user()->channels
         ], Response::HTTP_OK);
     }
 
@@ -32,7 +33,7 @@ class ChannelController extends Controller
     {
         return response()->json([
             'message' => 'Channel created successfully',
-            'channel' => Channel::create($request->validated())
+            'channel' => ChannelResource::make(Channel::create($request->validated()))
         ], Response::HTTP_CREATED);
     }
 
@@ -47,7 +48,7 @@ class ChannelController extends Controller
     {
         return response()->json([
             'message' => 'Channel updated successfully',
-            'channel' => $channel->update($request->validated())
+            'channel' => ChannelResource::make($channel->update($request->validated()))
         ]);
     }
 
@@ -61,7 +62,7 @@ class ChannelController extends Controller
     {
         return response()->json([
             'message' => 'Channel deleted successfully',
-            'channel' => $channel->delete(),
+            'channel' => ChannelResource::make($channel->delete()),
         ]);
     }
 }

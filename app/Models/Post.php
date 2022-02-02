@@ -30,6 +30,11 @@ class Post extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    public function channel(): BelongsTo
+    {
+        return $this->belongsTo(Channel::class);
+    }
+
     /**
      * get file attribute
      */

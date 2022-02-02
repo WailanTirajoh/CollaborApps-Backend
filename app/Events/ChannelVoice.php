@@ -16,14 +16,16 @@ class ChannelVoice implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $voice;
+    private $channel;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($voice)
+    public function __construct($voice, $channel)
     {
         $this->voice = $voice;
+        $this->channel = $channel;
     }
 
     /**
@@ -33,7 +35,7 @@ class ChannelVoice implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('channel.1');
+        return new PresenceChannel('channel.' . $this->channel->id);
     }
 
     public function broadcastAs()

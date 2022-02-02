@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Channel;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class ChannelSeeder extends Seeder
 {
@@ -15,16 +16,18 @@ class ChannelSeeder extends Seeder
     public function run()
     {
         $channels = [
-            'a',
-            'b',
-            'c',
-            'd',
-            'e',
+            'Unilever International',
+            'OK Bank Indonesia',
+            'MGM Bosco Logistics',
+            'Samsung',
+            'Asimor',
+            'Lentera Kesehatan Nusantara',
         ];
 
         foreach ($channels as $channel) {
             Channel::create([
-                'name' => $channel
+                'name' => $channel,
+                'slug' => Str::slug($channel)
             ]);
         }
     }
