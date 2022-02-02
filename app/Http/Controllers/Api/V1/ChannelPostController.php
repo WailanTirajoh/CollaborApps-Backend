@@ -38,14 +38,18 @@ class ChannelPostController extends Controller
      */
     public function store(StorePostRequest $request, Channel $channel)
     {
-        $post = Auth::user()->posts()->save(new Post($request->validated()));
+        $validated = $request->validated();
+        $validated['channel_id'] = $channel->id;
+        $post = Auth::user()->posts()->save(new Post($validated));
 
         if ($request->file) {
             $post->addMedia($request->file)->usingName(Str::random(20))->toMediaCollection((new Post)->mediaName);
         }
+
         $message = 'Post created by ' . Auth::user()->name;
-        broadcast(new PostCreated(PostResource::make($post), $channel))->toOthers();
+        broadcast(new PostCreated(PostResource::make($post), $channel));
         broadcast(new ToastrMessage($message));
+
         return response()->json([
             'message' => $message,
             'post' => PostResource::make($post),

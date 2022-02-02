@@ -26,7 +26,8 @@ class UpdateChannelRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'string'
+                'string',
+                'unique:channels,name,' . request()->channel_id
             ]
         ];
     }

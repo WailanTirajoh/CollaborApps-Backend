@@ -14,7 +14,7 @@ class LoginController extends Controller
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'email' => 'Invalid credentials'
-            ], Response::HTTP_UNAUTHORIZED);
+            ]);
         }
 
         $token = Auth::user()->createToken('token')->plainTextToken;

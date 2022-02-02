@@ -69,10 +69,10 @@ class User extends Authenticatable implements HasMedia
     /**
      * [presence channel]
      * determine that the user can join channel
-     * @param int channel id
+     * @param string channel slug
      * @return boolean
      */
-    public function canJoinChannel(int $channelId)
+    public function canJoinChannel(string $channelSlug)
     {
         // nanti diisi
         return true;

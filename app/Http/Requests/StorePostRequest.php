@@ -31,7 +31,7 @@ class StorePostRequest extends FormRequest
             ],
             'channel_id' => [
                 'required',
-                'integer'
+                // 'integer'
             ],
             'file' => [
                 'nullable',

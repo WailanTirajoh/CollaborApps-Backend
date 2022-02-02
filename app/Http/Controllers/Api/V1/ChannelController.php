@@ -8,6 +8,7 @@ use App\Http\Requests\StoreChannelRequest;
 use App\Http\Requests\UpdateChannelRequest;
 use App\Http\Resources\ChannelResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class ChannelController extends Controller
 {
@@ -31,9 +32,12 @@ class ChannelController extends Controller
      */
     public function store(StoreChannelRequest $request)
     {
+        $validated = $request->validated();
+        $validated['slug'] =  Str::slug($request->name);
+
         return response()->json([
             'message' => 'Channel created successfully',
-            'channel' => ChannelResource::make(Channel::create($request->validated()))
+            'channel' => ChannelResource::make(Channel::create($validated))
         ], Response::HTTP_CREATED);
     }
 

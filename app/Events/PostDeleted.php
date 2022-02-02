@@ -33,7 +33,7 @@ class PostDeleted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('channels.' . $this->channel->id . '.posts');
+        return new Channel('channels.' . $this->channel->slug . '.posts');
     }
 
     public function broadcastAs()

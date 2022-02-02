@@ -35,7 +35,7 @@ class ChannelVoice implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('channel.' . $this->channel->id);
+        return new PresenceChannel('channel.' . $this->channel->slug);
     }
 
     public function broadcastAs()

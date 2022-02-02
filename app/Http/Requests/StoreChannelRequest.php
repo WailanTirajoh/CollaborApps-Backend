@@ -26,7 +26,8 @@ class StoreChannelRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'string'
+                'string',
+                'unique:channels,name'
             ]
         ];
     }

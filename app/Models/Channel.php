@@ -12,7 +12,8 @@ class Channel extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        'name'
+        'name',
+        'slug'
     ];
 
     public function users()
