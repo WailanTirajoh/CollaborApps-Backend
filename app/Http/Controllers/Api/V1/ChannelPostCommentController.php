@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1;
+
 use App\Events\PostCommentCreated;
 use App\Events\PostCommentDeleted;
 use App\Events\TestPrivate;
@@ -12,20 +13,21 @@ use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\PostCommentResource;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
+use App\Models\Channel;
 use App\Models\Post;
 use App\Notifications\PostCommentedNotification;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-class PostCommentController extends Controller
+class ChannelPostCommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Post $post)
+    public function index(Channel $channel, Post $post)
     {
         return response()->json([
             'message' => 'Komentar berhasil didapat.',
@@ -39,7 +41,7 @@ class PostCommentController extends Controller
      * @param  \App\Http\Requests\StoreCommentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCommentRequest $request, Post $post)
+    public function store(StoreCommentRequest $request, Channel $channel, Post $post)
     {
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
@@ -62,7 +64,7 @@ class PostCommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCommentRequest $request, Post $post, Comment $comment)
+    public function update(UpdateCommentRequest $request, Channel $channel, Post $post, Comment $comment)
     {
         $comment->update($request->validated());
 
@@ -78,7 +80,7 @@ class PostCommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post, Comment $comment)
+    public function destroy(Channel $channel, Post $post, Comment $comment)
     {
         if ($comment->comments()->count() > 0) {
             throw ValidationException::withMessages([

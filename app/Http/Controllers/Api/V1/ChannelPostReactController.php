@@ -10,10 +10,11 @@ use App\Http\Requests\StoreReactRequest;
 use App\Http\Resources\PostReactResource;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\ReactResource;
+use App\Models\Channel;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 
-class PostReactController extends Controller
+class ChannelPostReactController extends Controller
 {
     /**
      * Store a newly created resource in storage.
@@ -22,7 +23,7 @@ class PostReactController extends Controller
      * @param  \App\Models\Post $post
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreReactRequest $request, Post $post)
+    public function store(StoreReactRequest $request, Channel $channel, Post $post)
     {
         $react = React::find($request->react_id);
         $resource = [

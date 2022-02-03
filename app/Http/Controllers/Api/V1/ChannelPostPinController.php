@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use App\Models\Channel;
 use App\Models\Post;
 
-class PostPinController extends Controller
+class ChannelPostPinController extends Controller
 {
-    public function store(Post $post)
+    public function store(Channel $channel, Post $post)
     {
         $post->updatePin();
 

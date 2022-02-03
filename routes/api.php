@@ -8,10 +8,10 @@ use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\ChannelController;
 use App\Http\Controllers\Api\V1\ChannelVoiceController;
 use App\Http\Controllers\Api\V1\CommentSubCommentController;
-use App\Http\Controllers\Api\V1\PostCommentController;
+use App\Http\Controllers\Api\V1\ChannelPostCommentController;
 use App\Http\Controllers\Api\V1\ChannelPostController;
-use App\Http\Controllers\Api\V1\PostReactController;
-use App\Http\Controllers\Api\V1\PostPinController;
+use App\Http\Controllers\Api\V1\ChannelPostReactController;
+use App\Http\Controllers\Api\V1\ChannelPostPinController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,14 +34,14 @@ Route::prefix('/v1')->group(function () {
         });
 
         Route::resource('channels', ChannelController::class)->only(['index', 'store', 'update', 'delete']);
-        Route::resource('channels.posts', ChannelPostController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('channels.voice', ChannelVoiceController::class)->only(['store']);
+        Route::resource('channels.posts', ChannelPostController::class)->only(['index', 'store', 'update', 'destroy']);
 
-        Route::resource('posts.reacts', PostReactController::class)->only(['store']);
-        Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
-        Route::resource('posts.pin', PostPinController::class)->only(['store']);
+        Route::resource('channels.posts.reacts', ChannelPostReactController::class)->only(['store']);
+        Route::resource('channels.posts.comments', ChannelPostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('channels.posts.pin', ChannelPostPinController::class)->only(['store']);
 
-        Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
+        // Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
 
         Route::post('/logout', LogoutController::class)->name('logout');
     });
