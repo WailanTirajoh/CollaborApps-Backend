@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\V1\CommentSubCommentController;
 use App\Http\Controllers\Api\V1\PostCommentController;
 use App\Http\Controllers\Api\V1\ChannelPostController;
 use App\Http\Controllers\Api\V1\PostReactController;
-use App\Http\Controllers\PostPinController;
+use App\Http\Controllers\Api\V1\PostPinController;
 use Illuminate\Support\Facades\Route;
 
 /*
