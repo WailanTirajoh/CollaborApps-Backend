@@ -35,11 +35,11 @@ Route::prefix('/v1')->group(function () {
 
         Route::resource('channels', ChannelController::class)->only(['index', 'store', 'update', 'delete']);
         Route::resource('channels.posts', ChannelPostController::class)->only(['index', 'store', 'update', 'destroy']);
-        Route::post('/channels/{channel}/voice', ChannelVoiceController::class)->name('channel.voice');
+        Route::resource('channels.voice', ChannelVoiceController::class)->only(['store']);
 
         Route::resource('posts.reacts', PostReactController::class)->only(['store']);
         Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
-        Route::put('/posts/{post}/pin', PostPinController::class)->name('posts.pin');
+        Route::resource('posts.pin', PostPinController::class)->only(['store']);
 
         Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
 

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ChannelVoiceController extends Controller
 {
-    public function __invoke(Request $request, Channel $channel)
+    public function store(Request $request, Channel $channel)
     {
         broadcast(new ChannelVoice($request->voice, $channel));
 

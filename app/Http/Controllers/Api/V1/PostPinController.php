@@ -7,7 +7,7 @@ use App\Models\Post;
 
 class PostPinController extends Controller
 {
-    public function __invoke(Post $post)
+    public function store(Post $post)
     {
         $post->updatePin();
 
