@@ -33,15 +33,15 @@ Route::prefix('/v1')->group(function () {
             Route::delete('/profile-photo', [ProfilePhotoController::class, 'delete'])->name('profile-photo.delete');
         });
 
+        Route::resource('channels', ChannelController::class)->only(['index', 'store', 'update', 'delete']);
+        Route::resource('channels.posts', ChannelPostController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::post('/channels/{channel}/voice', ChannelVoiceController::class)->name('channel.voice');
+
         Route::resource('posts.reacts', PostReactController::class)->only(['store']);
         Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::put('/posts/{post}/pin', PostPinController::class)->name('posts.pin');
 
         Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
-
-        Route::resource('channels', ChannelController::class)->only(['index', 'store', 'update', 'delete']);
-        Route::resource('channels.posts', ChannelPostController::class)->only(['index', 'store', 'update', 'destroy']);
-        Route::post('/channels/{channel}/voice', ChannelVoiceController::class)->name('channel.voice');
 
         Route::post('/logout', LogoutController::class)->name('logout');
     });
