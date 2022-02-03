@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\CommentSubCommentController;
 use App\Http\Controllers\Api\V1\PostCommentController;
 use App\Http\Controllers\Api\V1\ChannelPostController;
 use App\Http\Controllers\Api\V1\PostReactController;
+use App\Http\Controllers\PostPinController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,8 @@ Route::prefix('/v1')->group(function () {
 
         Route::resource('posts.reacts', PostReactController::class)->only(['store']);
         Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::put('/posts/{post}/pin', PostPinController::class)->name('posts.pin');
+
         Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
 
         Route::resource('channels', ChannelController::class)->only(['index', 'store', 'update', 'delete']);

@@ -25,11 +25,17 @@ class Post extends Model implements HasMedia
         'channel_id'
     ];
 
+    /**
+     * post belongsto user, user has many post
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * post belongsto channel, channel has many post
+     */
     public function channel(): BelongsTo
     {
         return $this->belongsTo(Channel::class);
@@ -41,5 +47,16 @@ class Post extends Model implements HasMedia
     public function getFileAttribute()
     {
         return $this->getFirstMediaUrl($this->mediaName);
+    }
+
+    /**
+     * Update pin of post
+     * @param none
+     * @return void
+     */
+    public function updatePin(): void
+    {
+        $this->is_pinned = !$this->is_pinned;
+        $this->save();
     }
 }
