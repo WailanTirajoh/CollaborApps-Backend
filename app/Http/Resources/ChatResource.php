@@ -18,6 +18,7 @@ class ChatResource extends JsonResource
             'id' => $this->id,
             'message' => $this->message,
             'user' => UserResource::make($this->user),
+            'created_at' => $this->created_at->diffForHumans(null, true, true),
         ];
     }
 }
