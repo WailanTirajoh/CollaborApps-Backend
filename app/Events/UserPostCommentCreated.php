@@ -5,11 +5,12 @@ namespace App\Events;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 
-class UserPostCommentCreated implements ShouldBroadcast
+class UserPostCommentCreated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -43,7 +44,7 @@ class UserPostCommentCreated implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        if (Auth::user()->id === (int) $this->user->id) {
+        if (Auth::user()->id == $this->user->id) {
             $message = $this->user->name . ' memberikan komentar pada post anda.';
         } else {
             $message = 'Komentar anda berhasil ditambahkan';

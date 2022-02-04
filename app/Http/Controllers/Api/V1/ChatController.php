@@ -19,7 +19,8 @@ class ChatController extends Controller
     public function index()
     {
         return response()->json([
-            'chats' => ChatResource::collection(Chat::paginate(5))
+            // 'chats' => ChatResource::collection(Chat::paginate(50))
+            'chats' => ChatResource::collection(Chat::get())
         ]);
     }
 
