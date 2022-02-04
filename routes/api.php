@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\ChannelPostCommentController;
 use App\Http\Controllers\Api\V1\ChannelPostController;
 use App\Http\Controllers\Api\V1\ChannelPostReactController;
 use App\Http\Controllers\Api\V1\ChannelPostPinController;
+use App\Http\Controllers\Api\V1\ChatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,8 @@ Route::prefix('/v1')->group(function () {
         Route::resource('channels.posts.pin', ChannelPostPinController::class)->only(['store']);
 
         // Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
+
+        Route::resource('chats', ChatController::class)->only(['index', 'store', 'destroy']);
 
         Route::post('/logout', LogoutController::class)->name('logout');
     });
