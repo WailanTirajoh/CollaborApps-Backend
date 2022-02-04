@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\ChatCreated;
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Http\Requests\StoreChatRequest;
@@ -32,9 +33,13 @@ class ChatController extends Controller
     {
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
+        $chat = ChatResource::make(Chat::create($validated));
+
+        broadcast(new ChatCreated($chat));
+
         return response()->json([
             'message' => 'Chat created successfully',
-            'chat' => ChatResource::make(Chat::create($validated))
+            'chat' => $chat
         ]);
     }
 
