@@ -39,4 +39,11 @@ class ChatDeleted
     {
         return 'deleted';
     }
+
+    public function broadcastWith()
+    {
+        return [
+            'chat' => $this->chat
+        ];
+    }
 }
