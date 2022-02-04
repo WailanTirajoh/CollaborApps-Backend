@@ -50,7 +50,7 @@ class ChatController extends Controller
 
         return response()->json([
             'message' => 'Chat deleted successfully',
-            'chat' => $chat
+            'chat' => ChatResource::make($chat)
         ]);
     }
 }
