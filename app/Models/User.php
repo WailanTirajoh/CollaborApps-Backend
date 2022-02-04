@@ -57,6 +57,22 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
+     * user channel many to many relation
+     */
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class);
+    }
+
+    /**
+     * user has many chat relation
+     */
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
+    }
+
+    /**
      * The channels the user receives notification broadcasts on.
      *
      * @return string
@@ -76,10 +92,5 @@ class User extends Authenticatable implements HasMedia
     {
         // nanti diisi
         return true;
-    }
-
-    public function channels()
-    {
-        return $this->belongsToMany(Channel::class);
     }
 }

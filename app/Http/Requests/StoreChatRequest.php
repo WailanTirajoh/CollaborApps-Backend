@@ -13,7 +13,7 @@ class StoreChatRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreChatRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'message' => [
+                'required'
+            ]
         ];
     }
 }
