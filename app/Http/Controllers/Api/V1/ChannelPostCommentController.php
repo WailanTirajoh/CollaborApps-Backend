@@ -51,6 +51,8 @@ class ChannelPostCommentController extends Controller
         broadcast(new UserPostCommentCreated(UserResource::make(Auth::user()), PostResource::make($post)))->toOthers();
         broadcast(new PostCommentCreated(PostResource::make($post), PostCommentResource::make($comment)));
 
+        $post->user->notify(new PostCommentedNotification(PostCommentResource::make($comment)));
+
         return response()->json([
             'message' => 'Komentar berhasil ditambahkan.',
             'comment' => PostCommentResource::make($comment),

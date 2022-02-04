@@ -2,28 +2,28 @@
 
 namespace App\Notifications;
 
+use App\Http\Resources\PostCommentResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PostCommentedNotification extends Notification implements ShouldBroadcast, ShouldQueue
+class PostCommentedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private $user;
+    private $comment;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct($comment)
     {
-        $this->user = $user;
+        $this->comment = $comment;
     }
 
     /**
@@ -46,9 +46,8 @@ class PostCommentedNotification extends Notification implements ShouldBroadcast,
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->line('Hello, ' . $this->comment->user->name . ' comment on your post')
+            ->action('Notification Action', url('/'));
     }
 
     /**
@@ -60,20 +59,7 @@ class PostCommentedNotification extends Notification implements ShouldBroadcast,
     public function toArray($notifiable)
     {
         return [
-            'user' => UserResource::make($this->user)
+            'comment' => $this->comment
         ];
-    }
-
-    /**
-     * Get the broadcastable representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return BroadcastMessage
-     */
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'user' => UserResource::make($this->user)
-        ]);
     }
 }
