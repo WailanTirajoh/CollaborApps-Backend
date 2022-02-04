@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Http\Requests\StoreChatRequest;
 use App\Http\Resources\ChatResource;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
@@ -29,9 +30,11 @@ class ChatController extends Controller
      */
     public function store(StoreChatRequest $request)
     {
+        $validated = $request->validated();
+        $validated['user_id'] = Auth::user()->id;
         return response()->json([
             'message' => 'Chat created successfully',
-            'chat' => Chat::create($request->validated())
+            'chat' => ChatResource::make(Chat::create($validated))
         ]);
     }
 
