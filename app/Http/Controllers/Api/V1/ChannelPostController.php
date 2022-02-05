@@ -26,7 +26,9 @@ class ChannelPostController extends Controller
     public function index(Channel $channel)
     {
         return response()->json([
-            'posts' => PostResource::collection($channel->posts()->orderByDesc('created_at')->paginate(5)),
+            'posts' => PostResource::collection($channel->posts()->when(request('filter') == 'is_pinned', function ($query) {
+                return $query->where('is_pinned', true);
+            })->orderByDesc('created_at')->paginate(5)),
         ]);
     }
 

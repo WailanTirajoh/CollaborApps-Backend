@@ -32,6 +32,10 @@ Broadcast::channel('home.{id}', function ($user, $id) {
     ];
 });
 
+Broadcast::channel('chats', function ($user) {
+    return true;
+});
+
 Broadcast::channel('channel.{channelId}', function ($user, $channelId) {
     if ($user->canJoinChannel($channelId)) {
         return [
