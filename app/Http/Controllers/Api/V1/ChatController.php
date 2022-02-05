@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Events\ChatCreated;
+use App\Events\ChatDeleted;
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Http\Requests\StoreChatRequest;
@@ -54,9 +55,12 @@ class ChatController extends Controller
     {
         $chat->delete();
 
+        $chat = ChatResource::make($chat);
+        broadcast(new ChatDeleted($chat));
+
         return response()->json([
             'message' => 'Chat deleted successfully',
-            'chat' => ChatResource::make($chat)
+            'chat' => $chat
         ]);
     }
 }
