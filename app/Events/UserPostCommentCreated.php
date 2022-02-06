@@ -45,7 +45,7 @@ class UserPostCommentCreated implements ShouldBroadcastNow
     public function broadcastWith()
     {
         if (Auth::user()->id === (int) $this->post->user->id) {
-            $message = 'Komentar anda berhasil ditambahkan';
+            $message = '';
         } else {
             $message = $this->user->name . ' memberikan komentar pada post anda.';
         }
