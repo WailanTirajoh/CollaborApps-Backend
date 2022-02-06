@@ -6,12 +6,13 @@ use App\Http\Resources\PostCommentResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PostCommentedNotification extends Notification implements ShouldQueue
+class PostCommentedNotification extends Notification implements ShouldQueue, ShouldBroadcastNow
 {
     use Queueable;
 
@@ -62,5 +63,28 @@ class PostCommentedNotification extends Notification implements ShouldQueue
         return [
             'comment' => $this->comment
         ];
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'comment' => $this->comment
+        ]);
+    }
+
+    /**
+     * Get the type of the notification being broadcast.
+     *
+     * @return string
+     */
+    public function broadcastType()
+    {
+        return 'post.commented';
     }
 }

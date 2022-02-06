@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\V1\ChannelPostController;
 use App\Http\Controllers\Api\V1\ChannelPostReactController;
 use App\Http\Controllers\Api\V1\ChannelPostPinController;
 use App\Http\Controllers\Api\V1\ChatController;
+use App\Http\Controllers\Api\V1\NotificationController;
+use App\Http\Controllers\Api\V1\UnreadNotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +47,9 @@ Route::prefix('/v1')->group(function () {
         // Route::resource('comments.subComments', CommentSubCommentController::class)->only(['index', 'store', 'update', 'destroy']);
 
         Route::resource('chats', ChatController::class)->only(['index', 'store', 'destroy']);
+
+        Route::get('/notifications', NotificationController::class);
+        Route::get('/notifications/unread', UnreadNotificationController::class);
 
         Route::post('/logout', LogoutController::class)->name('logout');
     });
