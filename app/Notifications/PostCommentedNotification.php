@@ -10,19 +10,23 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PostCommentedNotification extends Notification implements ShouldQueue
+class PostCommentedNotification extends Notification
 {
     use Queueable;
 
     private $comment;
+    private $message;
+    private $user;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($comment)
+    public function __construct($comment, $message, $user)
     {
         $this->comment = $comment;
+        $this->message = $message;
+        $this->user = $user;
     }
 
     /**
@@ -45,7 +49,9 @@ class PostCommentedNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'comment' => $this->comment
+            'comment' => $this->comment,
+            'message' => $this->message,
+            'user' => $this->user,
         ];
     }
 }

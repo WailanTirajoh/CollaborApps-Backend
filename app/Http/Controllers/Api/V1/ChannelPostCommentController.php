@@ -48,14 +48,18 @@ class ChannelPostCommentController extends Controller
 
         $comment = $post->comments()->save(new Comment($validated));
 
-        broadcast(new UserPostCommentCreated(UserResource::make(Auth::user()), PostResource::make($post)))->toOthers();
-        broadcast(new PostCommentCreated(PostResource::make($post), PostCommentResource::make($comment)));
+        $resourceComment = PostCommentResource::make($comment);
+        $resourcePost = PostResource::make($post);
+        $resourceUser = UserResource::make(Auth::user());
+        broadcast(new UserPostCommentCreated(UserResource::make(Auth::user()), $resourcePost))->toOthers();
+        broadcast(new PostCommentCreated($resourcePost, $resourceComment));
 
-        $post->user->notify(new PostCommentedNotification(PostCommentResource::make($comment)));
+        $message = Auth::user()->name . " said: '" . $request->text . "' on your post";
+        $post->user->notify(new PostCommentedNotification($resourceComment, $message, $resourceUser));
 
         return response()->json([
-            'message' => 'Komentar berhasil ditambahkan.',
-            'comment' => PostCommentResource::make($comment),
+            'message' => 'Comment added successfully.',
+            'comment' => $resourceComment,
         ]);
     }
 
@@ -71,7 +75,7 @@ class ChannelPostCommentController extends Controller
         $comment->update($request->validated());
 
         return response()->json([
-            'message' => 'Komentar berhasil diubah.',
+            'message' => 'Comment updated successfully.',
             'comment' => PostCommentResource::make($comment)
         ]);
     }
@@ -86,13 +90,13 @@ class ChannelPostCommentController extends Controller
     {
         if ($comment->comments()->count() > 0) {
             throw ValidationException::withMessages([
-                'message' => 'Komentar tidak dapat dihapus, seseorang telah mengomentari komentar ini!'
+                'message' => 'The comment cannot be deleted, someone has already comment this comment!'
             ])->status(Response::HTTP_FORBIDDEN);
         }
 
         if (!$post->user_id == Auth::user()->id) {
             throw ValidationException::withMessages([
-                'message' => 'Komentar tidak dapat dihapus, seseorang telah mengomentari komentar ini!'
+                'message' => 'The comment cannot be deleted, someone has already comment this comment!'
             ])->status(Response::HTTP_FORBIDDEN);
         }
 
