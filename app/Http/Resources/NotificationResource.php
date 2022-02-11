@@ -17,6 +17,7 @@ class NotificationResource extends JsonResource
         return [
             'id' => $this->id,
             'comment' => $this->data,
+            'created_at' => $this->created_at->format('h:i:s d M Y')
         ];
     }
 }
