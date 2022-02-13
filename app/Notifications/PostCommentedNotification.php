@@ -6,25 +6,27 @@ use App\Http\Resources\PostCommentResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PostCommentedNotification extends Notification implements ShouldQueue, ShouldBroadcastNow
+class PostCommentedNotification extends Notification
 {
     use Queueable;
 
     private $comment;
+    private $message;
+    private $user;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($comment)
+    public function __construct($comment, $message, $user)
     {
         $this->comment = $comment;
+        $this->message = $message;
+        $this->user = $user;
     }
 
     /**
@@ -36,20 +38,6 @@ class PostCommentedNotification extends Notification implements ShouldQueue, Sho
     public function via($notifiable)
     {
         return ['database'];
-        // return ['mail', 'database'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->line('Hello, ' . $this->comment->user->name . ' comment on your post')
-            ->action('Notification Action', url('/'));
     }
 
     /**
@@ -61,30 +49,9 @@ class PostCommentedNotification extends Notification implements ShouldQueue, Sho
     public function toArray($notifiable)
     {
         return [
-            'comment' => $this->comment
+            'comment' => $this->comment,
+            'message' => $this->message,
+            'user' => $this->user,
         ];
-    }
-
-    /**
-     * Get the broadcastable representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return BroadcastMessage
-     */
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'comment' => $this->comment
-        ]);
-    }
-
-    /**
-     * Get the type of the notification being broadcast.
-     *
-     * @return string
-     */
-    public function broadcastType()
-    {
-        return 'post.commented';
     }
 }
