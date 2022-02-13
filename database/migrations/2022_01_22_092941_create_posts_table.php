@@ -16,7 +16,9 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('channel_id')->constrained()->onDelete('cascade');
             $table->longText('text');
+            $table->boolean('is_pinned')->default(false);
             $table->timestamps();
         });
     }
